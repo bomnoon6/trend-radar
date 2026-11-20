@@ -6,6 +6,12 @@
     "common_filters": { "time_unit": "week", "gender": "f", "ages": ["20", "30", "40"], "device": "" },
     "batch": { "anchors_per_call": 1, "new_per_call": 4 },
     "min_score_for_change": 3.0,
+    "web_rank": {
+      "_comment": "A-2(옵션, USE_DATALAB_WEB_RANK=true): 데이터랩 웹 분야별 인기검색어. 시드에 없는 키워드는 '신규 발견'으로 추가 점수화(최대 max_new_per_category 개). 같은 분야 코드를 공유하는 그룹은 한 곳만 web_rank 를 켠다.",
+      "top_n": 20,
+      "max_new_per_category": 12,
+      "request_interval_sec": 3
+    },
     "_note_group_weight": "분야(cid)가 다른 그룹은 앵커가 서로 달라 직접 비교가 안 됩니다. group_weight 로 그룹 점수를 보정합니다(기본 1.0). 2단계에서 브리지 키워드로 보정 가능 여부를 점검합니다."
   },
 
@@ -131,6 +137,7 @@
             "cid": "50000009",
             "verified": false,
             "anchor": "필라테스",
+            "web_rank": false,
             "group_weight": 1.0,
             "seeds": [
               "온라인강의", "클래스", "원데이클래스", "필라테스", "요가", "수영강습", "골프레슨", "PT", "클라이밍", "전자책",
@@ -154,6 +161,7 @@
       "naver": {
         "_note": "별도 분야 없음. season_windows 중 '조회 기준일(±lookahead)'에 걸리는 창의 키워드를 묶어 사용합니다. 키워드 문자열 또는 {name, cid} 로 분야를 지정하며, 생략하면 창의 cid 를 씁니다. 시기마다 교체·추가하세요.",
         "lookahead_days": 30,
+        "web_rank": false,
         "anchor_by_cid": { "50000008": "휴지", "50000006": "라면" },
         "season_windows": [
           {

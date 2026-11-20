@@ -87,10 +87,21 @@ python -m http.server 8000      # http://localhost:8000
 
 ## A-2 옵션 (데이터랩 웹 '분야별 인기검색어')
 
-**현재 구현되어 있지 않습니다.** `USE_DATALAB_WEB_RANK` 환경변수는 자리만 잡아 둔 값이라 `true` 로 바꿔도 아무 일도 일어나지 않습니다.
-기본 수집(A-1)은 시드 키워드 기반이라 목록에 없는 신규 키워드는 잡히지 않는다는 한계가 있으며, 이를 보완하려면
-`collectors/` 에 수집기 모듈을 추가하고 `collectors/__init__.py` 의 `REGISTRY` 에 등록한 뒤 `scripts/build_data.py` 의 소스 목록에 넣으면 됩니다
-(비공식 수집이므로 실패해도 다른 소스에 영향이 없게 격리하고 하루 2회 이내로 제한할 것).
+기본 수집(A-1)은 시드 키워드 기반이라 목록에 없는 신규 키워드는 잡히지 않습니다. A-2 를 켜면 데이터랩 웹 화면이 쓰는 내부 요청
+(`getCategoryKeywordRank.naver`, 비공식)으로 분야별 인기검색어 1~20위를 가져와 보완합니다.
+
+- **동작:** 인기검색어 중 시드에 없는 키워드는 **"신규 발견"** 배지를 달고, A-1 과 같은 방식(앵커 정규화)으로 다시 호출해
+  점수·전주 대비·작년 대비를 계산한 뒤 같은 순위표에 합쳐집니다(분야당 최대 `naver.web_rank.max_new_per_category` 개, 기본 12).
+  시드에 있는 키워드는 "데이터랩 인기 n위" 표시만 더해집니다.
+- **켜는 법(기본 꺼짐):**
+  - 한 번만: Actions → *Collect trends* → *Run workflow* 의 **datalab_web** 체크
+  - 계속: 저장소 Settings → Secrets and variables → Actions → **Variables** 에 `USE_DATALAB_WEB_RANK` = `true`
+  - 로컬: `.env` 에 `USE_DATALAB_WEB_RANK=true` 또는 `python scripts/build_data.py --datalab-web`
+- **비용/제약:** 한 번 실행에 웹 요청 약 12회(두 기준 × 분야 6개, 3초 간격)와 신규 키워드 재조회로 네이버 API 호출이 약 30회 늘어납니다.
+  비공식 경로라 언제든 바뀌거나 막힐 수 있으며, 실패하면 하단 상태에 "A-2 실패"로 표시되고 A-1 결과만 정상 발행됩니다.
+- **제외 대상:** 시즌상품(분야가 따로 없음)과, 분야 코드를 공유하는 여행/자기개발의 여가·생활편의(여행이 소유, 시드와 맞으면 자기개발로 배정).
+  그룹별 `web_rank: false` 로 끄고 켤 수 있습니다.
+- 수집기는 [collectors/datalab_web.py](collectors/datalab_web.py), 신규 판정·병합은 `scripts/build_data.py` 의 `find_discovered`/`annotate_web_rank`.
 
 ## 새 소스/박스 추가하기
 

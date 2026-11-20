@@ -11,6 +11,7 @@ import datetime as dt
 import gzip
 import json
 import logging
+import os
 import pathlib
 import re
 import sys
@@ -19,7 +20,7 @@ import time
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))
 sys.stdout.reconfigure(encoding="utf-8")
 
-from collectors import REGISTRY, base  # noqa: E402
+from collectors import REGISTRY, base, datalab_web  # noqa: E402
 
 DATA = base.ROOT / "data"
 SAMPLES = base.ROOT / "docs" / "samples"
@@ -130,8 +131,45 @@ def compress_old_archives() -> None:
             p.unlink()
 
 
+# ------------------------------------------------------------ A-2 (데이터랩 웹 인기검색어, 옵션)
+def known_keywords(cfg: dict) -> set[str]:
+    out = set()
+    for cat in cfg["categories"]:
+        nv = cat.get("naver") or {}
+        for g in nv.get("groups", []):
+            out |= {norm(k, cfg) for k in g["seeds"] + [g["anchor"]]}
+        for w in nv.get("season_windows", []):
+            out |= {norm(k if isinstance(k, str) else k["name"], cfg) for k in w["keywords"]}
+    return out
+
+
+def find_discovered(web: list[dict], cfg: dict) -> dict[str, list[tuple[str, str]]]:
+    """인기검색어 중 시드에 없는 키워드(= 신규 발견)를 카테고리별로 모은다(순위순, 상한 적용)."""
+    known, cap = known_keywords(cfg), cfg["naver"].get("web_rank", {}).get("max_new_per_category", 12)
+    found: dict[str, list[tuple[str, str]]] = {}
+    seen = set()
+    for it in sorted(web, key=lambda i: i["rank"]):
+        k = norm(it["keyword"], cfg)
+        lst = found.setdefault(it["category"], [])
+        if k not in known and k not in seen and len(lst) < cap:
+            seen.add(k)
+            lst.append((it["keyword"], it["extra"]["cid"]))
+    return found
+
+
+def annotate_web_rank(items: list[dict], web: list[dict], cfg: dict) -> int:
+    ranks = {(w["category"], norm(w["keyword"], cfg)): w["rank"] for w in web}
+    n = 0
+    for it in items:
+        r = ranks.get((it["category"], norm(it["keyword"], cfg)))
+        if r:
+            it["extra"]["web_rank"] = r
+            n += 1
+    return n
+
+
 # ------------------------------------------------------------ 수집
-def collect_mode(mode: str, cfg: dict, skip: set, from_samples: bool, status: dict) -> list[dict]:
+def collect_mode(mode: str, cfg: dict, skip: set, from_samples: bool, status: dict, web_on: bool = False) -> list[dict]:
     period = base.build_period(mode)
     items: list[dict] = []
     for src in MODE_SOURCES[mode]:
@@ -145,7 +183,23 @@ def collect_mode(mode: str, cfg: dict, skip: set, from_samples: bool, status: di
                 calls = None
             else:
                 http = base.Http(src)
-                got = REGISTRY[src](period, None, config=cfg, http=http)
+                kwargs, web = {}, []
+                if src == "naver" and web_on:  # A-2: 실패해도 A-1 은 계속 (격리)
+                    wst = status.setdefault("naver_web", {"label": "네이버 데이터랩 웹 인기검색어(A-2, 비공식)"})
+                    try:
+                        wcfg = cfg["naver"].get("web_rank", {})
+                        whttp = base.Http("naver_web", delay=wcfg.get("request_interval_sec", 3), max_calls=60, retries=2)
+                        web = datalab_web.collect(period, None, config=cfg, http=whttp)
+                        found = find_discovered(web, cfg)
+                        kwargs["extra_seeds"] = found
+                        wst[mode] = {"ok": bool(web), "count": len(web), "calls": whttp.calls, "stale": False,
+                                     "discovered": sum(len(v) for v in found.values()), "error": None if web else "수집 결과 없음"}
+                    except Exception as e:
+                        logging.exception("naver_web(%s) 실패 — A-1 결과만 사용", mode)
+                        wst[mode] = {"ok": False, "count": 0, "stale": False, "error": base.redact(str(e))[:300]}
+                got = REGISTRY[src](period, None, config=cfg, http=http, **kwargs)
+                if web:
+                    annotate_web_rank(got, web, cfg)
                 calls = http.calls
             stale = any(i["extra"].get("stale") for i in got)
             ok = bool(got)
@@ -173,21 +227,24 @@ def main() -> int:
     ap.add_argument("--from-samples", action="store_true")
     ap.add_argument("--skip", nargs="*", default=[])
     ap.add_argument("--archive", action="store_true", help="샘플 모드에서도 아카이브 기록")
+    ap.add_argument("--datalab-web", action="store_true", help="A-2 켜기(또는 USE_DATALAB_WEB_RANK=true)")
     a = ap.parse_args()
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
     base.load_env()
     cfg = base.load_json("config/categories.json")
     skip = set(a.skip)
+    web_on = a.datalab_web or os.environ.get("USE_DATALAB_WEB_RANK", "").strip().lower() in ("1", "true", "yes", "on")
+    logging.info("A-2(데이터랩 웹 인기검색어): %s", "켜짐" if web_on else "꺼짐")
     status: dict = {}
     today = now_kst().date()
 
     # 최신
     p_latest = base.build_period("latest")
-    items = collect_mode("latest", cfg, skip, a.from_samples, status)
+    items = collect_mode("latest", cfg, skip, a.from_samples, status, web_on)
     latest = finalize(items, cfg, p_latest, DATA / "latest.json")
     # 작년 기준
     p_ly = base.build_period("lastyear")
-    ly_items = collect_mode("lastyear", cfg, skip, a.from_samples, status)
+    ly_items = collect_mode("lastyear", cfg, skip, a.from_samples, status, web_on)
     g_items, g_note = google_from_archive(p_ly.ref_date, today)
     lastyear = finalize(ly_items + g_items, cfg, p_ly, None)
     lastyear["notices"]["google"] = g_note

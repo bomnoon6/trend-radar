@@ -122,8 +122,19 @@ def _metrics(pts: list[tuple[dt.date, float]], period: Period, anchor_pts=None, 
     }
 
 
+def _extra_groups(cat: dict, period: Period, extras: list[tuple[str, str]]) -> list[dict]:
+    """A-2 로 발견한 신규 키워드를 같은 분야의 앵커로 묶어 A-1 과 같은 방식으로 점수화한다."""
+    base_groups = {g["cid"]: g for g in groups_for(cat, period)}
+    by: dict[str, list[str]] = {}
+    for kw, cid in extras:
+        by.setdefault(cid, []).append(kw)
+    return [{"name": f"신규발견/{cid}", "cid": cid, "anchor": base_groups[cid]["anchor"],
+             "group_weight": base_groups[cid].get("group_weight", 1.0), "include_anchor": False,
+             "discovered": True, "seeds": kws} for cid, kws in by.items() if cid in base_groups]
+
+
 def collect(period: Period, category: str | None = None, *, config: dict | None = None,
-            http: base.Http | None = None) -> list[dict]:
+            http: base.Http | None = None, extra_seeds: dict[str, list[tuple[str, str]]] | None = None) -> list[dict]:
     cfg = config or base.load_json("config/categories.json")
     nv = cfg["naver"]
     http = http or base.Http("naver", max_calls=int(os.environ.get("NAVER_MAX_CALLS", "1000")))
@@ -135,7 +146,7 @@ def collect(period: Period, category: str | None = None, *, config: dict | None 
         if category and cat["id"] != category:
             continue
         items: dict[str, dict] = {}
-        for g in groups_for(cat, period):
+        for g in groups_for(cat, period) + _extra_groups(cat, period, (extra_seeds or {}).get(cat["id"], [])):
             seeds = [s for s in dict.fromkeys(g["seeds"]) if s != g["anchor"]]
             for i in range(0, len(seeds), per_call):
                 chunk = seeds[i:i + per_call]
@@ -154,7 +165,7 @@ def collect(period: Period, category: str | None = None, *, config: dict | None 
                         items[kw] = make_item(
                             kw, cat["id"], SOURCE_ID, "shopping_insight", m["score"], period.label,
                             change_wow=m["wow"], yoy=m["yoy"],
-                            extra={"series": m["series"], "cid": g["cid"], "group": g["name"], "week": m["week"],
+                            extra={"discovered": bool(g.get("discovered")), "series": m["series"], "cid": g["cid"], "group": g["name"], "week": m["week"],
                                    "ly_score": m["ly_score"], "yoy_abs": None if m["yoy_abs"] is None else round(m["yoy_abs"], 1)})
         ranked = base.assign_ranks(list(items.values()))
         ly = sorted((it for it in ranked if it["extra"].get("ly_score")), key=lambda x: -x["extra"]["ly_score"])

@@ -8,7 +8,7 @@ export const BOXES = [
   {
     id: 'naver', title: '네이버 데이터랩', sub: '쇼핑인사이트 · 주간 · 여성 20~40대', statusKeys: ['naver'],
     tabs: [{ id: 'main', label: null, filter: (i) => i.source === 'naver',
-      meta: (i) => [`관심지수 ${i.score}`] }],
+      meta: (i) => [`관심지수 ${i.score}`, i.extra?.web_rank ? `데이터랩 인기 ${i.extra.web_rank}위` : ''] }],
   },
   {
     id: 'tour', title: '한국관광공사', sub: '월간 · 여행·맛집 전용', statusKeys: ['tour'], monthly: true,

@@ -8,7 +8,7 @@ export function Footer({ status, state }) {
     const warn = ok && st.stale;
     const text = id === 'google_archive'
       ? (ok ? `스냅샷 ${st.snapshot}` : st.message)
-      : (ok ? `성공 · ${st.count}건${st.stale ? ' · 갱신 지연' : ''}` : `실패 · ${st.error || ''}`);
+      : (ok ? `성공 · ${st.count}건${st.discovered != null ? ` · 신규 발견 ${st.discovered}개` : ''}${st.stale ? ' · 갱신 지연' : ''}` : `실패 · ${st.error || ''}`);
     return h('li', {}, h('span', { class: `dot${!ok ? ' fail' : warn ? ' warn' : ''}` }), `${s.label}: ${text}`);
   }).filter(Boolean);
   return h('footer', { class: 'foot' },
