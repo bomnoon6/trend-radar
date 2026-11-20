@@ -78,7 +78,7 @@ export function Box({ def, state, data, status, tpl, onOpen, rerender }) {
   const expanded = !!state.expanded[key];
   const shown = list.slice(0, expanded ? MAX : PAGE);
   parts.push(h('ol', { class: 'list' }, shown.map((item, i) => Row({
-    item, displayRank: cat === 'all' ? i + 1 : item.rank, tpl, metaParts: tab.meta(item),
+    item, displayRank: i + 1, tpl, metaParts: tab.meta(item),
     catLabel: catLabel(item.category), showCategory: cat === 'all', onOpen: (it) => onOpen(it, pool),
   }))));
   if (list.length > PAGE) {

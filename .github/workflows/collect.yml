@@ -11,11 +11,6 @@ on:
         description: "건너뛸 수집기 (공백 구분: naver tour google_trending google_youtube)"
         required: false
         default: ""
-      datalab_web:
-        description: "A-2 켜기: 데이터랩 웹 인기검색어(비공식) 포함 (이 실행에만 적용)"
-        type: boolean
-        required: false
-        default: false
 
 concurrency:
   group: collect
@@ -46,8 +41,9 @@ jobs:
           NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
           DATA_GO_KR_KEY: ${{ secrets.DATA_GO_KR_KEY }}
           TOUR_RLTE_KEY: ${{ secrets.TOUR_RLTE_KEY }}
-          # A-2 옵션: 수동 실행 체크박스 또는 저장소 변수(Settings > Secrets and variables > Actions > Variables)로 켠다
-          USE_DATALAB_WEB_RANK: ${{ github.event.inputs.datalab_web == 'true' && 'true' || vars.USE_DATALAB_WEB_RANK || 'false' }}
+          # A-2 는 기본으로 수집해 두고, 화면의 '신규 발견 포함' 체크박스로 보이기/숨기기를 고른다.
+          # 수집 자체를 끄려면 저장소 변수 USE_DATALAB_WEB_RANK=false (Settings > Secrets and variables > Actions > Variables)
+          USE_DATALAB_WEB_RANK: ${{ vars.USE_DATALAB_WEB_RANK || 'true' }}
           SKIP: ${{ github.event.inputs.skip }}
         run: python scripts/build_data.py --skip $SKIP
 

@@ -3,7 +3,7 @@ import { h } from '../util.js';
 const d = (iso) => iso.slice(0, 10).replaceAll('-', '.');
 const ym = (s) => `${s.slice(0, 4)}년 ${Number(s.slice(4))}월`;
 
-export function Header({ data, state, theme, onMode, onTheme }) {
+export function Header({ data, state, theme, hasA2, onA2, onMode, onTheme }) {
   const p = data.period;
   const g = data.generated_at; // 'YYYY-MM-DDTHH:MM:SS+09:00' (KST 그대로 표시)
   const upd = `${Number(g.slice(5, 7))}월 ${Number(g.slice(8, 10))}일 ${g.slice(11, 16)} 갱신`;
@@ -13,6 +13,9 @@ export function Header({ data, state, theme, onMode, onTheme }) {
     h('div', { class: 'top-right' },
       h('div', { class: 'seg', role: 'group', 'aria-label': '조회 기준' },
         modes.map(([id, label]) => h('button', { type: 'button', 'aria-pressed': String(state.mode === id), onclick: () => onMode(id) }, label))),
+      h('label', { class: 'toggle', title: hasA2 ? '데이터랩 인기검색어에서 새로 발견한 키워드를 순위에 포함합니다' : '이 데이터에는 신규 발견 항목이 없어요' },
+        h('input', { type: 'checkbox', checked: state.a2 && hasA2, disabled: !hasA2, onchange: (e) => onA2(e.target.checked) }),
+        '신규 발견 포함'),
       h('button', { class: 'icon-btn', type: 'button', onclick: onTheme, 'aria-label': '화면 모드 전환' }, theme === 'dark' ? '☀ 라이트' : '☾ 다크')),
     h('div', { class: 'period' },
       state.mode === 'latest' ? '실제 기준: ' : '작년 기준(오늘−345일): ',

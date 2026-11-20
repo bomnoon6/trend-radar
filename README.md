@@ -93,10 +93,12 @@ python -m http.server 8000      # http://localhost:8000
 - **동작:** 인기검색어 중 시드에 없는 키워드는 **"신규 발견"** 배지를 달고, A-1 과 같은 방식(앵커 정규화)으로 다시 호출해
   점수·전주 대비·작년 대비를 계산한 뒤 같은 순위표에 합쳐집니다(분야당 최대 `naver.web_rank.max_new_per_category` 개, 기본 12).
   시드에 있는 키워드는 "데이터랩 인기 n위" 표시만 더해집니다.
-- **켜는 법(기본 꺼짐):**
-  - 한 번만: Actions → *Collect trends* → *Run workflow* 의 **datalab_web** 체크
-  - 계속: 저장소 Settings → Secrets and variables → Actions → **Variables** 에 `USE_DATALAB_WEB_RANK` = `true`
-  - 로컬: `.env` 에 `USE_DATALAB_WEB_RANK=true` 또는 `python scripts/build_data.py --datalab-web`
+- **켜고 끄기:**
+  - **화면에서(권장):** 사이트 상단의 **"신규 발견 포함"** 체크박스. 끄면 신규 발견 항목과 "데이터랩 인기 n위" 표시를 숨기고
+    순위·교차 트렌드를 다시 계산합니다. 설정은 그 브라우저에만 저장됩니다. (정적 사이트라 브라우저에서 수집 자체를 바꿀 수는 없어서, A-2 는 항상 수집해 두고 표시만 고릅니다.)
+  - **수집 자체를 끄기:** 저장소 Settings → Secrets and variables → Actions → **Variables** 에 `USE_DATALAB_WEB_RANK` = `false`
+    (비공식 경로 문제로 막혔을 때 등). 변수가 없으면 Actions 에서는 켜짐입니다.
+  - **로컬:** 기본은 꺼짐. `.env` 에 `USE_DATALAB_WEB_RANK=true` 또는 `python scripts/build_data.py --datalab-web`
 - **비용/제약:** 한 번 실행에 웹 요청 약 12회(두 기준 × 분야 6개, 3초 간격)와 신규 키워드 재조회로 네이버 API 호출이 약 30회 늘어납니다.
   비공식 경로라 언제든 바뀌거나 막힐 수 있으며, 실패하면 하단 상태에 "A-2 실패"로 표시되고 A-1 결과만 정상 발행됩니다.
 - **제외 대상:** 시즌상품(분야가 따로 없음)과, 분야 코드를 공유하는 여행/자기개발의 여가·생활편의(여행이 소유, 시드와 맞으면 자기개발로 배정).

@@ -26,6 +26,22 @@ export function normKey(kw) {
   return s;
 }
 
+/** 교차 트렌드를 화면에서 다시 계산(A-2 를 숨길 때 사용). build_data.py 의 compute_cross 와 같은 규칙 */
+export function computeCross(items) {
+  const g = new Map();
+  for (const it of items) {
+    if (it.sub_source === 'area_demand') continue;
+    const k = normKey(it.keyword);
+    if (!g.has(k)) g.set(k, { key: k, keyword: it.keyword, sources: new Set(), cats: new Set() });
+    const e = g.get(k);
+    e.sources.add(it.source);
+    if (it.category) e.cats.add(it.category);
+  }
+  return [...g.values()].filter((e) => e.sources.size >= 2)
+    .map((e) => ({ key: e.key, keyword: e.keyword, sources: [...e.sources].sort(), categories: [...e.cats].sort() }))
+    .sort((a, b) => b.sources.length - a.sources.length || a.keyword.localeCompare(b.keyword));
+}
+
 export async function copyText(text) {
   try {
     await navigator.clipboard.writeText(text);
