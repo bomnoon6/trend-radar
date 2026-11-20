@@ -1,0 +1,12 @@
+{
+ "schema_version": 1,
+ "period": {
+  "mode": "latest",
+  "start": "2026-11-09",
+  "end": "2026-11-15",
+  "ref_date": "2026-11-20",
+  "tour_ym": "202610",
+  "season_date": "2026-11-20"
+ },
+ "items": []
+}

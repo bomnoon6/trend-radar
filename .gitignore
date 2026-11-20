@@ -1,0 +1,27 @@
+# 비밀 값 — 절대 커밋 금지
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+
+# Playwright / 로컬 산출물
+.playwright/
+playwright-report/
+test-results/
+_site/
+
+# OS / 에디터
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log
+
+# local tool settings
+.claude/

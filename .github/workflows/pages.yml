@@ -1,0 +1,46 @@
+name: Deploy Pages
+
+# 코드가 바뀌면 직접 실행되고, 수집 워크플로(collect.yml)에서도 재사용(workflow_call)된다.
+# GITHUB_TOKEN 으로 한 커밋은 다른 워크플로를 깨우지 않으므로, 수집 후 배포는 workflow_call 로 이어 붙인다.
+on:
+  push:
+    branches: [main]
+    paths-ignore: ["data/**", "docs/**", "README.md"]
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}   # 수집 커밋이 반영된 최신 상태
+
+      - name: 사이트 폴더 구성 (아카이브·캐시·샘플은 제외)
+        run: |
+          mkdir -p _site/config _site/data
+          cp index.html _site/
+          cp -r assets _site/assets
+          cp config/templates.json _site/config/
+          cp data/latest.json data/lastyear.json data/status.json _site/data/
+          touch _site/.nojekyll
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4

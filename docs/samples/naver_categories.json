@@ -1,0 +1,63 @@
+{
+  "request": {
+    "path": "/shopping/v1/categories",
+    "body": {
+      "startDate": "2026-10-16",
+      "endDate": "2026-11-19",
+      "timeUnit": "week",
+      "category": [
+        {
+          "name": "가구/인테리어",
+          "param": [
+            "50000004"
+          ]
+        }
+      ],
+      "gender": "f",
+      "ages": [
+        "20",
+        "30",
+        "40"
+      ]
+    }
+  },
+  "response": {
+    "startDate": "2026-10-12",
+    "endDate": "2026-11-20",
+    "timeUnit": "week",
+    "results": [
+      {
+        "title": "가구/인테리어",
+        "category": [
+          "50000004"
+        ],
+        "data": [
+          {
+            "period": "2026-10-12",
+            "ratio": 91.55727
+          },
+          {
+            "period": "2026-10-19",
+            "ratio": 94.25631
+          },
+          {
+            "period": "2026-10-26",
+            "ratio": 95.97627
+          },
+          {
+            "period": "2026-11-02",
+            "ratio": 100
+          },
+          {
+            "period": "2026-11-09",
+            "ratio": 97.41329
+          },
+          {
+            "period": "2026-11-16",
+            "ratio": 54.31234
+          }
+        ]
+      }
+    ]
+  }
+}

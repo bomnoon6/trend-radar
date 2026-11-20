@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "_comment": "글 기획 메모·배지·해시태그·검색 링크 규칙. 코드 수정 없이 이 파일만 고치면 됩니다. rules 는 위에서부터 평가해 처음 맞는 것이 '추천 유형'이 됩니다.",
+
+  "badges": {
+    "surge_hot": { "min_wow": 50, "label": "급상승", "color": "red" },
+    "surge_warm": { "min_wow": 20, "max_wow": 50, "label": "상승", "color": "orange" },
+    "new_discovery_label": "신규 발견",
+    "stale_label": "갱신 지연",
+    "cross_label": "교차 트렌드"
+  },
+
+  "yoy": {
+    "top_n_for_same_period": 10,
+    "label_up": "작년 대비 ▲{pct}%",
+    "label_down": "작년 대비 ▼{pct}%",
+    "label_top": "작년에도 TOP{n}",
+    "label_none": "—"
+  },
+
+  "memo": {
+    "headline": "[{keyword}] 검색 {wow_label} → 추천 유형: {type}",
+    "wow_label_up": "▲{pct}%",
+    "wow_label_down": "▼{pct}%",
+    "wow_label_flat": "보합",
+    "wow_label_none": "(변동 데이터 없음)",
+    "priority_tag": "우선 게시 추천",
+    "list_top_n": 5
+  },
+
+  "rules": [
+    {
+      "id": "surge",
+      "type": "정보형",
+      "hint": "이슈·뉴스 정리",
+      "when": { "change_wow_gte": 50 }
+    },
+    {
+      "id": "season_repeat",
+      "type": "리스트형",
+      "hint": "추천 TOP {list_top_n}",
+      "when": { "yoy_top_prior": true, "is_season": true }
+    },
+    {
+      "id": "similar_group",
+      "type": "비교형",
+      "hint": "A vs B",
+      "when": { "similar_count_gte": 2 }
+    },
+    {
+      "id": "default",
+      "type": "후기·경험형",
+      "hint": "직접 써본 후기 / 체크리스트",
+      "when": {}
+    }
+  ],
+
+  "similar_keywords": {
+    "_comment": "'비교형' 판정용. 같은 카테고리에서 아래 접미어/포함어를 공유하는 키워드가 2개 이상이면 유사 키워드로 봅니다.",
+    "min_shared_chars": 3
+  },
+
+  "hashtags": {
+    "count": 5,
+    "patterns": [
+      "#{keyword}",
+      "#{keyword}추천",
+      "#{keyword}{category_suffix}",
+      "#{category_tag}",
+      "#{keyword}후기",
+      "#{category_tag}추천",
+      "#오늘의{category_tag}"
+    ],
+    "category_suffix": {
+      "리빙": "인테리어",
+      "뷰티": "뷰티",
+      "맛집": "맛집",
+      "자기개발": "공부",
+      "시즌상품": "시즌템",
+      "여행": "여행"
+    },
+    "category_tag": {
+      "리빙": "리빙",
+      "뷰티": "뷰티스타그램",
+      "맛집": "맛스타그램",
+      "자기개발": "자기개발",
+      "시즌상품": "시즌템",
+      "여행": "여행스타그램"
+    }
+  },
+
+  "search_links": {
+    "naver": "https://search.naver.com/search.naver?query={q}",
+    "google": "https://www.google.com/search?q={q}",
+    "youtube": "https://www.youtube.com/results?search_query={q}",
+    "instagram": "https://www.instagram.com/explore/tags/{tag}/"
+  }
+}

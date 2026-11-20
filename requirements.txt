@@ -1,0 +1,5 @@
+requests>=2.32
+python-dotenv>=1.0
+playwright>=1.48
+# 유튜브 급상승 검색어(보조) 수집기 — 2단계에서 라이브러리 상태 확인 후 확정
+pytrends>=4.9

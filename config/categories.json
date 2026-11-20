@@ -1,0 +1,278 @@
+{
+  "schema_version": 1,
+  "_comment": "카테고리·소스 매핑·시드 키워드의 단일 관리 파일. 키워드 추가/삭제는 seeds 배열만 고치면 됩니다. cid 는 네이버 쇼핑인사이트 분야 코드이며 verified=false 인 값은 2단계(실제 호출)에서 검증합니다.",
+
+  "naver": {
+    "common_filters": { "time_unit": "week", "gender": "f", "ages": ["20", "30", "40"], "device": "" },
+    "batch": { "anchors_per_call": 1, "new_per_call": 4 },
+    "min_score_for_change": 3.0,
+    "_note_group_weight": "분야(cid)가 다른 그룹은 앵커가 서로 달라 직접 비교가 안 됩니다. group_weight 로 그룹 점수를 보정합니다(기본 1.0). 2단계에서 브리지 키워드로 보정 가능 여부를 점검합니다."
+  },
+
+  "categories": [
+    {
+      "id": "living",
+      "label": "리빙",
+      "order": 1,
+      "naver": {
+        "groups": [
+          {
+            "name": "가구/인테리어",
+            "cid": "50000004",
+            "verified": false,
+            "anchor": "책상",
+            "group_weight": 1.0,
+            "seeds": [
+              "수납장", "행거", "러그", "커튼", "암막커튼", "무드등", "조명", "선반", "서랍장", "화장대",
+              "전신거울", "침대프레임", "매트리스", "식탁", "의자", "벽선반", "파티션", "소파", "토퍼", "협탁",
+              "벽시계", "액자"
+            ]
+          },
+          {
+            "name": "생활/건강",
+            "cid": "50000008",
+            "verified": false,
+            "anchor": "휴지",
+            "group_weight": 1.0,
+            "seeds": [
+              "제습기", "가습기", "공기청정기", "수납박스", "청소포", "세탁세제", "섬유유연제", "방향제", "디퓨저", "곰팡이제거제",
+              "빨래건조대", "논슬립매트", "밀폐용기", "텀블러", "전기장판", "핫팩", "물티슈", "욕실매트", "샤워기필터", "주방수납",
+              "욕실청소", "다용도선반"
+            ]
+          }
+        ]
+      },
+      "tour": null,
+      "google": {
+        "trending_categories": ["Shopping"],
+        "match_seed_keywords": true
+      },
+      "youtube_seeds": ["인테리어", "자취 꿀템", "수납 정리", "살림 꿀팁"]
+    },
+
+    {
+      "id": "beauty",
+      "label": "뷰티",
+      "order": 2,
+      "naver": {
+        "groups": [
+          {
+            "name": "화장품/미용",
+            "cid": "50000002",
+            "verified": false,
+            "anchor": "클렌징폼",
+            "group_weight": 1.0,
+            "seeds": [
+              "선크림", "톤업크림", "쿠션", "립틴트", "립밤", "아이섀도우", "마스카라", "아이라이너", "블러셔", "하이라이터",
+              "컨실러", "파운데이션", "비비크림", "앰플", "세럼", "에센스", "토너패드", "마스크팩", "수분크림", "아이크림",
+              "레티놀", "비타민C세럼", "시카크림", "클렌징오일", "클렌징밤", "필링젤", "헤어에센스", "두피케어", "샴푸", "트리트먼트",
+              "바디로션", "핸드크림", "향수", "립글로스", "미스트", "속눈썹영양제", "쿠션팩트", "선스틱"
+            ]
+          }
+        ]
+      },
+      "tour": null,
+      "google": {
+        "trending_categories": ["Beauty and Fashion"],
+        "match_seed_keywords": true
+      },
+      "youtube_seeds": ["뷰티 신상", "올리브영 추천", "메이크업", "스킨케어 루틴"]
+    },
+
+    {
+      "id": "food",
+      "label": "맛집",
+      "order": 3,
+      "naver": {
+        "groups": [
+          {
+            "name": "식품",
+            "cid": "50000006",
+            "verified": false,
+            "anchor": "라면",
+            "group_weight": 1.0,
+            "seeds": [
+              "밀키트", "마라탕", "마라소스", "곱창", "떡볶이", "샐러드", "닭가슴살", "프로틴", "단백질쉐이크", "그릭요거트",
+              "크림치즈", "베이글", "소금빵", "냉동피자", "밀푀유나베", "어묵탕", "호떡믹스", "군고구마", "귤", "딸기",
+              "샤인머스캣", "스테비아", "곤약", "오트밀", "두유", "김치", "비빔면", "냉면", "만두", "핫도그",
+              "치즈", "꿀", "견과류", "커피원두", "드립백", "캡슐커피", "쿠키", "초콜릿"
+            ]
+          }
+        ]
+      },
+      "tour": { "role": "food", "classification_keywords": ["음식점", "카페"] },
+      "google": {
+        "trending_categories": ["Food and Drink"],
+        "match_seed_keywords": true
+      },
+      "youtube_seeds": ["맛집", "신상 디저트", "편의점 신상", "카페 추천"]
+    },
+
+    {
+      "id": "selfdev",
+      "label": "자기개발",
+      "order": 4,
+      "naver": {
+        "_note": "도서가 별도 분야 코드(50005542 추정)로 존재하면 그 코드를 쓰고, 검증 실패 시 여가/생활편의 하위로 처리합니다.",
+        "groups": [
+          {
+            "name": "도서",
+            "cid": "50005542",
+            "verified": false,
+            "anchor": "소설",
+            "group_weight": 1.0,
+            "seeds": [
+              "재테크책", "주식책", "부동산책", "영어회화", "토익", "한국사능력검정", "공무원", "자격증", "코딩", "에세이",
+              "심리학", "독서노트", "다이어리", "플래너", "문제집", "영어원서", "글쓰기", "시집", "경제도서", "자기계발서"
+            ]
+          },
+          {
+            "name": "여가/생활편의",
+            "cid": "50000009",
+            "verified": false,
+            "anchor": "필라테스",
+            "group_weight": 1.0,
+            "seeds": [
+              "온라인강의", "클래스", "원데이클래스", "필라테스", "요가", "수영강습", "골프레슨", "PT", "클라이밍", "전자책",
+              "구독", "자격증강의", "영어회화수강", "드로잉클래스", "캘리그라피"
+            ]
+          }
+        ]
+      },
+      "tour": null,
+      "google": {
+        "trending_categories": ["Jobs and Education", "Hobbies and Leisure"],
+        "match_seed_keywords": true
+      },
+      "youtube_seeds": ["자기계발", "공부 루틴", "재테크 공부", "미라클모닝"]
+    },
+
+    {
+      "id": "season",
+      "label": "시즌상품",
+      "order": 5,
+      "naver": {
+        "_note": "별도 분야 없음. season_windows 중 '조회 기준일(±lookahead)'에 걸리는 창의 키워드를 묶어 사용합니다. 키워드 문자열 또는 {name, cid} 로 분야를 지정하며, 생략하면 창의 cid 를 씁니다. 시기마다 교체·추가하세요.",
+        "lookahead_days": 30,
+        "anchor_by_cid": { "50000008": "휴지", "50000006": "라면" },
+        "season_windows": [
+          {
+            "id": "newyear", "label": "신년·설", "start": "01-01", "end": "02-05", "cid": "50000008",
+            "keywords": ["다이어리", "플래너", "새해선물", "설선물세트", "한과선물세트", "핫팩", "가습기", "전기요", "손난로", "신년운세", "새해다짐", "목도리", "방한용품", "스케줄러", "건강기능식품선물"]
+          },
+          {
+            "id": "valentine_school", "label": "밸런타인·새학기", "start": "02-01", "end": "03-05", "cid": "50000008",
+            "keywords": ["발렌타인초콜릿", "졸업선물", "입학선물", "새학기가방", "책가방", "필통", "학용품", "이름스티커", "신학기선물", "화이트데이사탕", "수납정리", "이사준비", "이사청소", "신혼가전", "봄이불"]
+          },
+          {
+            "id": "spring", "label": "봄맞이·꽃놀이", "start": "03-01", "end": "04-30", "cid": "50000008",
+            "keywords": ["황사마스크", "미세먼지마스크", "공기청정기", "봄코트", "피크닉매트", "돗자리", "벚꽃", "도시락", "자전거", "캠핑의자", "선크림", "양산", "운동화", "트렌치코트", "알러지"]
+          },
+          {
+            "id": "family_month", "label": "가정의 달", "start": "04-15", "end": "05-31", "cid": "50000008",
+            "keywords": ["어버이날선물", "카네이션", "스승의날선물", "어린이날선물", "용돈박스", "부모님선물", "건강식품선물", "안마기", "꽃다발", "캠핑용품", "텐트", "그늘막", "쿨토시", "모기퇴치", "선풍기"]
+          },
+          {
+            "id": "rainy_summer", "label": "장마·여름", "start": "06-01", "end": "07-15", "cid": "50000008",
+            "keywords": ["제습기", "장마", "우산", "레인부츠", "곰팡이제거제", "빨래건조기", "에어컨", "서큘레이터", "냉감이불", "쿨매트", "휴대용선풍기", "넥쿨러", "수영복", "래시가드", "모기장"]
+          },
+          {
+            "id": "vacation", "label": "휴가·물놀이", "start": "07-01", "end": "08-31", "cid": "50000008",
+            "keywords": ["물놀이용품", "튜브", "아쿠아슈즈", "보냉백", "아이스박스", "캠핑테이블", "방수팩", "여행용캐리어", "여행파우치", "자외선차단제", "쿨링타올", "빙수기계", "아이스팩", "텐트", "해수욕장"]
+          },
+          {
+            "id": "chuseok", "label": "추석·환절기", "start": "08-20", "end": "10-05", "cid": "50000008",
+            "keywords": ["추석선물세트", "과일선물세트", "한우선물세트", "홍삼", "견과선물세트", "가을이불", "가을코트", "환절기", "보습크림", "가디건", "트렌치코트", "단풍놀이", "가을캠핑", "물걸레청소기", "제습제"]
+          },
+          {
+            "id": "halloween_autumn", "label": "핼러윈·가을", "start": "10-01", "end": "11-10", "cid": "50000008",
+            "keywords": ["핼러윈", "할로윈코스튬", "호박랜턴", "파티용품", "단풍", "가을소풍", "후리스", "니트", "히터", "전기장판", "난방텐트", "빼빼로", "수능선물", "수능도시락", "수능엿"]
+          },
+          {
+            "id": "yearend", "label": "블랙프라이데이·연말", "start": "11-01", "end": "12-31", "cid": "50000008",
+            "keywords": ["블랙프라이데이", "연말선물세트", "겨울생활템", "크리스마스", "크리스마스트리", "크리스마스선물", "핫팩", "전기장판", "롱패딩", "히터", "기모", "연말모임", "다이어리", "신년", "캘린더", "겨울이불", "방한용품", "털슬리퍼", "온수매트", "가습기", "크리스마스케이크", "홈파티", "연말파티", "송년회", "연말정산"]
+          }
+        ]
+      },
+      "tour": null,
+      "google": {
+        "trending_categories": ["Shopping"],
+        "match_seed_keywords": true
+      },
+      "youtube_seeds": ["시즌 선물 추천", "연말 선물", "계절 꿀템"]
+    },
+
+    {
+      "id": "travel",
+      "label": "여행",
+      "order": 6,
+      "naver": {
+        "groups": [
+          {
+            "name": "여가/생활편의",
+            "cid": "50000009",
+            "verified": false,
+            "anchor": "일본여행",
+            "group_weight": 1.0,
+            "seeds": [
+              "제주도", "일본여행", "오사카", "도쿄", "후쿠오카", "다낭", "방콕", "괌", "발리", "세부",
+              "유럽여행", "파리", "로마", "스위스", "캠핑", "글램핑", "펜션", "풀빌라", "에어텔", "호캉스",
+              "리조트", "여행자보험", "유심", "eSIM", "렌터카", "놀이공원", "스키장", "온천", "크루즈", "패키지여행",
+              "항공권", "입장권", "워터파크", "료칸", "타이베이", "블라디보스톡"
+            ]
+          }
+        ]
+      },
+      "tour": { "role": "travel", "classification_keywords": ["관광지", "체험"] },
+      "google": {
+        "trending_categories": ["Travel and Transportation"],
+        "match_seed_keywords": true
+      },
+      "youtube_seeds": ["국내여행", "해외여행 추천", "가성비 여행", "여행 브이로그"]
+    }
+  ],
+
+  "tour": {
+    "_comment": "한국관광공사: (a) 지역별 관광 자원 수요 → 뜨는 지역 TOP, (b) 관광지별 연관 관광지 → 여행/맛집 순위. 분류 값은 2단계에서 실제 응답으로 확정합니다.",
+    "area_demand_top_n": 5,
+    "related_per_area": 100,
+    "related_sigungu_per_area": 3,
+    "role_to_category": { "travel": "travel", "food": "food" },
+    "_unverified": "아래 오퍼레이션명·응답 필드 후보는 공식 활용가이드로 확정하지 못한 값입니다. 첫 실제 호출 시 collectors/tour.py 가 후보를 순서대로 시도하고 성공한 조합을 로그에 남깁니다.",
+    "area_demand": {
+      "service": "AreaTarResDemService",
+      "operation_candidates": ["areaTarSvcDemList", "areaTarSvcDemList1"],
+      "indicator_param": "tarSvcDemIxCd",
+      "indicator_value": "11",
+      "value_key_candidates": ["tarSvcDemIxVal", "tarSvcDemIx", "demIxVal", "tarSvcDemIdxVal"]
+    },
+    "related": {
+      "service_candidates": ["TarRlteTarService1", "TarRlteTarService"],
+      "operation_candidates": ["areaBasedList1", "areaBasedList"],
+      "name_key": "rlteTatsNm",
+      "rank_key": "rlteRank",
+      "class_keys": ["rlteCtgryLclsNm", "rlteCtgryMclsNm", "rlteCtgrySclsNm"],
+      "food_keywords": ["음식", "카페", "식당", "맛집", "디저트"],
+      "exclude_keywords": ["숙박", "쇼핑"]
+    },
+    "areas": [
+      { "code": "11", "name": "서울" }, { "code": "26", "name": "부산" }, { "code": "27", "name": "대구" },
+      { "code": "28", "name": "인천" }, { "code": "29", "name": "광주", "until": "202606" }, { "code": "30", "name": "대전" },
+      { "code": "12", "name": "전남광주", "from": "202607" },
+      { "code": "31", "name": "울산" }, { "code": "36", "name": "세종" }, { "code": "41", "name": "경기" },
+      { "code": "43", "name": "충북" }, { "code": "44", "name": "충남" }, { "code": "46", "name": "전남", "until": "202606" },
+      { "code": "47", "name": "경북" }, { "code": "48", "name": "경남" }, { "code": "50", "name": "제주" },
+      { "code": "51", "name": "강원" }, { "code": "52", "name": "전북" }
+    ]
+  },
+
+  "google": {
+    "trending": { "geo": "KR", "hours": 168, "sort": "search-volume", "rss_fallback": "https://trends.google.com/trending/rss?geo=KR" },
+    "youtube": { "geo": "KR", "gprop": "youtube", "timeframe": "now 7-d", "request_interval_sec": 20 }
+  },
+
+  "cross_trend": {
+    "min_sources": 2,
+    "normalize": { "strip_spaces": true, "lowercase": true, "strip_particles": ["은", "는", "이", "가", "을", "를", "의", "에", "과", "와", "도"] }
+  }
+}

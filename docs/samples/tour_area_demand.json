@@ -1,0 +1,289 @@
+{
+  "request": {
+    "path": "/AreaTarResDemService/areaTarSvcDemList",
+    "params": {
+      "baseYm": "202512",
+      "areaCd": "11",
+      "numOfRows": 100,
+      "pageNo": 1,
+      "tarSvcDemIxCd": "11"
+    }
+  },
+  "response": {
+    "response": {
+      "header": {
+        "resultCode": "0000",
+        "resultMsg": "OK"
+      },
+      "body": {
+        "items": {
+          "item": [
+            {
+              "baseYm": "202512",
+              "areaCd": "11",
+              "areaNm": "서울특별시",
+              "signguCd": "0",
+              "signguNm": "_",
+              "tarSvcDemIxCd": "11",
+              "tarSvcDemIxNm": "관광서비스수요",
+              "tarSvcDemIxVal": "117.18"
+            },
+            {
+              "baseYm": "202512",
+              "areaCd": "11",
+              "areaNm": "서울특별시",
+              "signguCd": "11110",
+              "signguNm": "종로구",
+              "tarSvcDemIxCd": "11",
+              "tarSvcDemIxNm": "관광서비스수요",
+              "tarSvcDemIxVal": "102.6"
+            },
+            {
+              "baseYm": "202512",
+              "areaCd": "11",
+              "areaNm": "서울특별시",
+              "signguCd": "11140",
+              "signguNm": "중구",
+              "tarSvcDemIxCd": "11",
+              "tarSvcDemIxNm": "관광서비스수요",
+              "tarSvcDemIxVal": "137.7"
+            },
+            {
+              "baseYm": "202512",
+              "areaCd": "11",
+              "areaNm": "서울특별시",
+              "signguCd": "11170",
+              "signguNm": "용산구",
+              "tarSvcDemIxCd": "11",
+              "tarSvcDemIxNm": "관광서비스수요",
+              "tarSvcDemIxVal": "100.42"
+            },
+            {
+              "baseYm": "202512",
+              "areaCd": "11",
+              "areaNm": "서울특별시",
+              "signguCd": "11200",
+              "signguNm": "성동구",
+              "tarSvcDemIxCd": "11",
+              "tarSvcDemIxNm": "관광서비스수요",
+              "tarSvcDemIxVal": "80.04"
+            },
+            {
+              "baseYm": "202512",
+              "areaCd": "11",
+              "areaNm": "서울특별시",
+              "signguCd": "11215",
+              "signguNm": "광진구",
+              "tarSvcDemIxCd": "11",
+              "tarSvcDemIxNm": "관광서비스수요",
+              "tarSvcDemIxVal": "84.01"
+            },
+            {
+              "baseYm": "202512",
+              "areaCd": "11",
+              "areaNm": "서울특별시",
+              "signguCd": "11230",
+              "signguNm": "동대문구",
+              "tarSvcDemIxCd": "11",
+              "tarSvcDemIxNm": "관광서비스수요",
+              "tarSvcDemIxVal": "77.66"
+            },
+            {
+              "baseYm": "202512",
+              "areaCd": "11",
+              "areaNm": "서울특별시",
+              "signguCd": "11260",
+              "signguNm": "중랑구",
+              "tarSvcDemIxCd": "11",
+              "tarSvcDemIxNm": "관광서비스수요",
+              "tarSvcDemIxVal": "70.18"
+            },
+            {
+              "baseYm": "202512",
+              "areaCd": "11",
+              "areaNm": "서울특별시",
+              "signguCd": "11290",
+              "signguNm": "성북구",
+              "tarSvcDemIxCd": "11",
+              "tarSvcDemIxNm": "관광서비스수요",
+              "tarSvcDemIxVal": "71.85"
+            },
+            {
+              "baseYm": "202512",
+              "areaCd": "11",
+              "areaNm": "서울특별시",
+              "signguCd": "11305",
+              "signguNm": "강북구",
+              "tarSvcDemIxCd": "11",
+              "tarSvcDemIxNm": "관광서비스수요",
+              "tarSvcDemIxVal": "72.47"
+            },
+            {
+              "baseYm": "202512",
+              "areaCd": "11",
+              "areaNm": "서울특별시",
+              "signguCd": "11320",
+              "signguNm": "도봉구",
+              "tarSvcDemIxCd": "11",
+              "tarSvcDemIxNm": "관광서비스수요",
+              "tarSvcDemIxVal": "70.02"
+            },
+            {
+              "baseYm": "202512",
+              "areaCd": "11",
+              "areaNm": "서울특별시",
+              "signguCd": "11350",
+              "signguNm": "노원구",
+              "tarSvcDemIxCd": "11",
+              "tarSvcDemIxNm": "관광서비스수요",
+              "tarSvcDemIxVal": "75.27"
+            },
+            {
+              "baseYm": "202512",
+              "areaCd": "11",
+              "areaNm": "서울특별시",
+              "signguCd": "11380",
+              "signguNm": "은평구",
+              "tarSvcDemIxCd": "11",
+              "tarSvcDemIxNm": "관광서비스수요",
+              "tarSvcDemIxVal": "72.07"
+            },
+            {
+              "baseYm": "202512",
+              "areaCd": "11",
+              "areaNm": "서울특별시",
+              "signguCd": "11410",
+              "signguNm": "서대문구",
+              "tarSvcDemIxCd": "11",
+              "tarSvcDemIxNm": "관광서비스수요",
+              "tarSvcDemIxVal": "74.15"
+            },
+            {
+              "baseYm": "202512",
+              "areaCd": "11",
+              "areaNm": "서울특별시",
+              "signguCd": "11440",
+              "signguNm": "마포구",
+              "tarSvcDemIxCd": "11",
+              "tarSvcDemIxNm": "관광서비스수요",
+              "tarSvcDemIxVal": "102.49"
+            },
+            {
+              "baseYm": "202512",
+              "areaCd": "11",
+              "areaNm": "서울특별시",
+              "signguCd": "11470",
+              "signguNm": "양천구",
+              "tarSvcDemIxCd": "11",
+              "tarSvcDemIxNm": "관광서비스수요",
+              "tarSvcDemIxVal": "73.94"
+            },
+            {
+              "baseYm": "202512",
+              "areaCd": "11",
+              "areaNm": "서울특별시",
+              "signguCd": "11500",
+              "signguNm": "강서구",
+              "tarSvcDemIxCd": "11",
+              "tarSvcDemIxNm": "관광서비스수요",
+              "tarSvcDemIxVal": "95.76"
+            },
+            {
+              "baseYm": "202512",
+              "areaCd": "11",
+              "areaNm": "서울특별시",
+              "signguCd": "11530",
+              "signguNm": "구로구",
+              "tarSvcDemIxCd": "11",
+              "tarSvcDemIxNm": "관광서비스수요",
+              "tarSvcDemIxVal": "76.5"
+            },
+            {
+              "baseYm": "202512",
+              "areaCd": "11",
+              "areaNm": "서울특별시",
+              "signguCd": "11545",
+              "signguNm": "금천구",
+              "tarSvcDemIxCd": "11",
+              "tarSvcDemIxNm": "관광서비스수요",
+              "tarSvcDemIxVal": "70.92"
+            },
+            {
+              "baseYm": "202512",
+              "areaCd": "11",
+              "areaNm": "서울특별시",
+              "signguCd": "11560",
+              "signguNm": "영등포구",
+              "tarSvcDemIxCd": "11",
+              "tarSvcDemIxNm": "관광서비스수요",
+              "tarSvcDemIxVal": "102.96"
+            },
+            {
+              "baseYm": "202512",
+              "areaCd": "11",
+              "areaNm": "서울특별시",
+              "signguCd": "11590",
+              "signguNm": "동작구",
+              "tarSvcDemIxCd": "11",
+              "tarSvcDemIxNm": "관광서비스수요",
+              "tarSvcDemIxVal": "82.68"
+            },
+            {
+              "baseYm": "202512",
+              "areaCd": "11",
+              "areaNm": "서울특별시",
+              "signguCd": "11620",
+              "signguNm": "관악구",
+              "tarSvcDemIxCd": "11",
+              "tarSvcDemIxNm": "관광서비스수요",
+              "tarSvcDemIxVal": "76.44"
+            },
+            {
+              "baseYm": "202512",
+              "areaCd": "11",
+              "areaNm": "서울특별시",
+              "signguCd": "11650",
+              "signguNm": "서초구",
+              "tarSvcDemIxCd": "11",
+              "tarSvcDemIxNm": "관광서비스수요",
+              "tarSvcDemIxVal": "105.98"
+            },
+            {
+              "baseYm": "202512",
+              "areaCd": "11",
+              "areaNm": "서울특별시",
+              "signguCd": "11680",
+              "signguNm": "강남구",
+              "tarSvcDemIxCd": "11",
+              "tarSvcDemIxNm": "관광서비스수요",
+              "tarSvcDemIxVal": "159.25"
+            },
+            {
+              "baseYm": "202512",
+              "areaCd": "11",
+              "areaNm": "서울특별시",
+              "signguCd": "11710",
+              "signguNm": "송파구",
+              "tarSvcDemIxCd": "11",
+              "tarSvcDemIxNm": "관광서비스수요",
+              "tarSvcDemIxVal": "114.64"
+            },
+            {
+              "baseYm": "202512",
+              "areaCd": "11",
+              "areaNm": "서울특별시",
+              "signguCd": "11740",
+              "signguNm": "강동구",
+              "tarSvcDemIxCd": "11",
+              "tarSvcDemIxNm": "관광서비스수요",
+              "tarSvcDemIxVal": "77.33"
+            }
+          ]
+        },
+        "numOfRows": 26,
+        "pageNo": 1,
+        "totalCount": 26
+      }
+    }
+  }
+}
